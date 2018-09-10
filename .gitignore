@@ -1,6 +1,7 @@
 api_keys.json
 .idea/
 venv/
-.csv
+*.csv
 user_info/
 .DS_Store
+*.pyc
