@@ -1,3 +1,6 @@
 api_keys.json
 .idea/
 venv/
+.csv
+user_info/
+.DS_Store
