@@ -1,13 +1,14 @@
 import tweepy
 import json
 import time
+import logging
 
 with open('api_keys.json') as f:
     keys = json.load(f)
 
 auth = tweepy.OAuthHandler(keys['consumer_key'], keys['consumer_secret'])
 auth.set_access_token(keys['access_token'], keys['access_token_secret'])
-api = tweepy.API(auth, wait_on_rate_limit=True, wait_on_rate_limit_notify=True)
+api = tweepy.API(auth, wait_on_rate_limit=True)
 
 
 def limit_handled(cursor):
@@ -23,7 +24,7 @@ def limit_handled(cursor):
             yield cursor.next()
         except tweepy.RateLimitError:
             print("WAITING...")
-            time.sleep(15 * 60)
+            time.sleep(60)
 
 
 def get_follower_ids(source_id):
@@ -39,7 +40,6 @@ def get_follower_ids(source_id):
     for follower in limit_handled(tweepy.Cursor(api.followers_ids, id=source_id).items()):
         num += 1
         followers.append(follower)
-    print "User " + str(source_id) + " has " + str(num) + "followers"
     return followers
 
 
@@ -56,5 +56,4 @@ def get_following_ids(source_id):
     for following_user in limit_handled(tweepy.Cursor(api.friends_ids, id=source_id).items()):
         num += 1
         following.append(following_user)
-    print "User " + str(source_id) + " is following " + str(num)
     return following

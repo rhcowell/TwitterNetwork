@@ -5,3 +5,4 @@ venv/
 user_info/
 .DS_Store
 *.pyc
+*.log
